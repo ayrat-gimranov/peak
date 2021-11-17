@@ -1,28 +1,26 @@
 import Link from 'next/link';
 import Menu from './Menu';
 
-type HeaderProps = {
-  user?: {
-    initials: string,
-  }
-};
+import { useSession, signIn, signOut } from 'next-auth/react';
 
-const Header = ({ user }: HeaderProps) => {
+const Header = () => {
+  const { data: session } = useSession();
+  const style = { "boxShadow": '0 40px 0 0 #8b7fb6' };
 
   return (
-    <nav className='flex items-center justify-between'>
+    <nav style={style} className='flex items-center justify-between p-4 bg-purple'>
       <Link href="/">
         <a className='text-white'>
-          <h1 className='text-2xl'>Peak</h1>
+          <h1 className='text-4xl'>Peak</h1>
           <h2 className='text-md'>Deliberate Practice</h2>
         </a>
       </Link>
 
       <div>
-        {user ? (
-          <Menu user={user} />
+        {session ? (
+          <Menu user={session.user} />
         ) : (
-          <span>Login</span>
+          <span className='text-white'>Login</span>
         )}
       </div>
     </nav>

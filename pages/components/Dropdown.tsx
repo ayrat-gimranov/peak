@@ -30,8 +30,8 @@ const Dropdown = ({ button, items }: DropdownProps ) => {
           leaveTo="transform opacity-0 scale-95"
         >
           <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-            {items.map((item) => (
-              <Menu.Item>
+            {items.map((item, index) => (
+              <Menu.Item key={index}>
                 {({ active }) => (
                   <Link href={item.link}>
                     <a>
