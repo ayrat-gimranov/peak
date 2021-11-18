@@ -14,11 +14,26 @@ const Form = ({ form }) => {
   const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
 
   // vars
-  const currentIndex = form.questions.findIndex((question) => question.id === currentQuestion.id) + 1;
+  const currentIndex = form.questions.findIndex((question) => question.id === currentQuestion.id);
   const numberOfQuestions = form.questions.length;
 
   // funcs
   const submitAnswer = () => setIsAnswerSubmitted(true);
+
+  const goTwoQuestionsBack = () => {
+    setIsAnswerSubmitted(false);
+    const previousIndex = currentIndex - 2 < 0 ? 0 : currentIndex - 2;
+    setCurrentQuestion(form.questions[previousIndex]);
+  };
+
+  const goToNextQuestion = () => {
+    const isLastQuestion = form.questions.length === currentIndex + 1;
+    if (isLastQuestion) return window.location.href = '/dashboard'; // FIXME with proper redirect
+
+    setIsAnswerSubmitted(false);
+
+    setCurrentQuestion(form.questions[currentIndex + 1]);
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
@@ -26,26 +41,42 @@ const Form = ({ form }) => {
       <Container>
         <Card color={form.color}>
           <p className='text-xl'>{form.name}</p>
-          <p className="text-gray-500">{`Question ${currentIndex}/${numberOfQuestions}`}</p>
+          <p className="text-gray-500">{`Question ${currentIndex + 1}/${numberOfQuestions}`}</p>
         </Card>
         <Card className='mt-6'>
           <p className='mb-4 text-lg'>{currentQuestion.title}</p>
           <Input label="Your answer" type="textarea">
           </Input>
+          {isAnswerSubmitted && (
+            <div className='mt-2'>
+              <p>The correct answer is:</p>
+              <p className='py-1 pl-4 mt-2 italic border-l border-gray-300'>{currentQuestion.answer}</p>
+            </div>
+          )}
         </Card>
 
         <div className='absolute bottom-0 left-0 right-0 flex justify-between p-4 space-x-2 bg-white border-t border-gray-200 md:relative md:border-none md:bg-transparent md:justify-end'>
-          <Link href="/dashboard">
-            <a className='w-full px-2 py-1 text-center text-gray-500 border border-gray-500 rounded-md md:w-auto md:px-4'>
-              Exit
-            </a>
-          </Link>
-          <Button
-            onClick={submitAnswer}
-            className='w-full py-1 md:w-auto'
-          >
-            Submit
-          </Button>
+          {isAnswerSubmitted ? (
+            <>
+              <Button onClick={goTwoQuestionsBack} className='w-full py-1 md:w-auto' variant='outlined' color='gray'>
+                My answer is incorrect
+              </Button>
+              <Button onClick={goToNextQuestion} className='w-full py-1 md:w-auto'>
+                My answer is correct
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link href="/dashboard">
+                <a className='w-full px-2 py-1 text-center text-gray-500 border border-gray-500 rounded-md md:w-auto md:px-4'>
+                  Exit
+                </a>
+              </Link>
+              <Button onClick={submitAnswer} className='w-full py-1 md:w-auto'>
+                Submit
+              </Button>
+            </>
+          )}
         </div>
       </Container>
     </div>

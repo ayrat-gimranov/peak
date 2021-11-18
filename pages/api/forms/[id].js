@@ -22,6 +22,21 @@ export default function handler(req, res) {
           title: 'Dummy question title 3?',
           answer: 'Dummy question answer 3',
         },
+        {
+          id: 4,
+          title: 'Dummy question title 4?',
+          answer: 'Dummy question answer 4',
+        },
+        {
+          id: 5,
+          title: 'Dummy question title 5?',
+          answer: 'Dummy question answer 5',
+        },
+        {
+          id: 6,
+          title: 'Dummy question title 6?',
+          answer: 'Dummy question answer 6',
+        },
       ],
     },
   });
