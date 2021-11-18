@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Link from 'next/link';
 
 // components
 import Header from "../components/Header";
@@ -7,6 +6,7 @@ import Container from "../components/Container";
 import Card from "../components/Card";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import Link from "../components/Link";
 
 const Form = ({ form }) => {
   // state
@@ -67,10 +67,8 @@ const Form = ({ form }) => {
             </>
           ) : (
             <>
-              <Link href="/dashboard">
-                <a className='w-full px-2 py-1 text-center text-gray-500 border border-gray-500 rounded-md md:w-auto md:px-4'>
+              <Link href="/dashboard" className="w-full md:w-auto md:px-4" variant='outlined' color='gray'>
                   Exit
-                </a>
               </Link>
               <Button onClick={submitAnswer} className='w-full py-1 md:w-auto'>
                 Submit

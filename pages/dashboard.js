@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import NextLink from 'next/link';
 import { useSession } from 'next-auth/react';
 
 import Header from './components/Header';
@@ -6,6 +6,7 @@ import Card from './components/Card';
 import Container from './components/Container';
 import Input from './components/Input';
 import Button from './components/Button';
+import Link from './components/Link';
 import ColoredSquare from './components/ColoredSquare';
 
 const Dashboard = ({ forms }) => {
@@ -20,14 +21,14 @@ const Dashboard = ({ forms }) => {
           <p className="mb-3 text-gray-500">To practice your skills</p>
           <div className="flex space-x-1">
             <Input className="flex-1" label="Name" placeholder="Give your survey a name" />
-            <Button variant="filled">Create</Button>
+            <Link href="/form/new">Create</Link>
           </div>
         </Card>
 
         <h3 className="mt-6 mb-2 text-xl">Your forms</h3>
 
         {forms.map((form) => (
-          <Link href={`/form/${form.id}`}>
+          <NextLink href={`/form/${form.id}`}>
             <a>
               <Card key={form.id} className="flex items-center justify-between mb-4 space-x-4">
                 <ColoredSquare color={form.color} />
@@ -41,7 +42,7 @@ const Dashboard = ({ forms }) => {
                 </div>
               </Card>
             </a>
-          </Link>
+          </NextLink>
         ))}
       </Container>
     </div>
