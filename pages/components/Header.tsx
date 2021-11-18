@@ -9,7 +9,7 @@ const Header = () => {
 
   return (
     <nav style={style} className='flex items-center justify-between p-4 bg-purple'>
-      <Link href="/">
+      <Link href="/dashboard">
         <a className='text-white'>
           <h1 className='text-4xl'>Peak</h1>
           <h2 className='text-md'>Deliberate Practice</h2>

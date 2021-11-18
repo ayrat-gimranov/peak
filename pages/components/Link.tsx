@@ -6,9 +6,12 @@ type LinkProps = {
   className?: string,
   variant?: "filled" | "outlined",
   color?: "purple" | "gray" | "red" | "yellow",
+  onClick?: () => void,
 };
 
-const Link = ({ href, children, className = '', color = 'purple', variant = 'filled' }: LinkProps) => {
+const Link = ({
+  href, children, className = '', color = 'purple', variant = 'filled', onClick,
+}: LinkProps) => {
 
   const definedStyle = {
     filled: 'text-white',
@@ -22,6 +25,7 @@ const Link = ({ href, children, className = '', color = 'purple', variant = 'fil
   return (
     <NextLink href={href}>
       <a
+        onClick={onClick}
         className={`
           ${className}
           ${definedStyle[variant]}

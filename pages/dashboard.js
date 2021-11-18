@@ -12,6 +12,11 @@ import ColoredSquare from './components/ColoredSquare';
 const Dashboard = ({ forms }) => {
   const { data: session } = useSession();
 
+  const saveFormNameInLocalStorage = () => {
+    const newFormName = document.querySelector('#newFormName').value;
+    localStorage.setItem('newFormName', newFormName);
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
@@ -20,8 +25,10 @@ const Dashboard = ({ forms }) => {
           <p className="text-xl">Create a new form</p>
           <p className="mb-3 text-gray-500">To practice your skills</p>
           <div className="flex space-x-1">
-            <Input className="flex-1" label="Name" placeholder="Give your survey a name" />
-            <Link href="/form/new">Create</Link>
+            <Input name="newFormName" className="flex-1" label="Name" placeholder="Give your survey a name" />
+            <Link onClick={saveFormNameInLocalStorage} href="/form/new">
+              Create
+            </Link>
           </div>
         </Card>
 
@@ -34,7 +41,7 @@ const Dashboard = ({ forms }) => {
                 <ColoredSquare color={form.color} />
                 <div className="flex-1">
                   <p>{form.name}</p>
-                  <smal>{form.questions}</smal>
+                  <small>{form.questions}</small>
                 </div>
                 <div className="flex flex-col space-y-2 md:space-x-2 md:flex-row md:space-y-0">
                   <Button color="yellow">E</Button>
