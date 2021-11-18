@@ -8,7 +8,7 @@ type InputProps = {
   onChange: () => {},
 };
 
-const Input = ({ label, placeholder, className, name, type, value, onChange }: InputProps) => {
+const Input = ({ label, placeholder, className, name, type = "text", value, onChange }: InputProps) => {
 
   return (
     <div
@@ -28,15 +28,26 @@ const Input = ({ label, placeholder, className, name, type, value, onChange }: I
         )
       }
 
-      <input
-        className="block w-full p-0 text-gray-900 placeholder-gray-500 border-0 focus:ring-0 sm:text-sm"
-        id={name}
-        name={name}
-        type={type}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-      />
+      {type === 'textarea' ? (
+        <textarea
+          className="block w-full p-0 text-gray-900 placeholder-gray-500 border-0 focus:ring-0 sm:text-sm"
+          id={name}
+          name={name}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+        />
+      ) : (
+        <input
+          className="block w-full p-0 text-gray-900 placeholder-gray-500 border-0 focus:ring-0 sm:text-sm"
+          id={name}
+          name={name}
+          type={type}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+        />
+      )}
     </div>
   )
 };

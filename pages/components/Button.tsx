@@ -1,6 +1,6 @@
 type ButtonProps = {
-  children: JSX.Element,
-  onClick: () => {},
+  children: JSX.Element | string,
+  onClick: () => void | (() => {}),
   disabled?: boolean,
   isLoading?: boolean,
   variant?: "filled" | "outlined",
@@ -19,11 +19,12 @@ const Button = ({
 }: ButtonProps) => {
 
   const definedStyle = {
-    filled: 'border-none',
-    outlined: '',
-    purple: 'bg-purple text-white',
-    red: 'bg-red-600 text-white',
-    yellow: 'bg-yellow-500 text-white',
+    filled: 'border-none text-white',
+    outlined: 'border bg-transparent',
+    purple: 'bg-purple',
+    red: 'bg-red-600',
+    yellow: 'bg-yellow-500',
+    gray: 'text-gray-500 border-gray-500'
   };
 
   return (

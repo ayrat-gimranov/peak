@@ -10,7 +10,6 @@ import ColoredSquare from './components/ColoredSquare';
 
 const Dashboard = ({ forms }) => {
   const { data: session } = useSession();
-  console.log('forms', forms);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
