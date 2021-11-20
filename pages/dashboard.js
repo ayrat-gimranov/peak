@@ -64,7 +64,7 @@ const Dashboard = ({ forms }) => {
 };
 
 export async function getServerSideProps(context) {
-  const res = await fetch(`http://localhost:3000/api/forms`);
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/forms`);
   const data = await res.json();
 
   if (!data) {

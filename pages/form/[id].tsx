@@ -84,7 +84,7 @@ const Form = ({ form }) => {
 };
 
 export async function getServerSideProps(context) {
-  const res = await fetch(`http://localhost:3000/api/forms/${context.params.id}`);
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/forms/${context.params.id}`);
   const form = await res.json();
 
   if (!form) {
