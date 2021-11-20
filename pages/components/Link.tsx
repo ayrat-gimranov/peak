@@ -30,7 +30,7 @@ const Link = ({
           ${className}
           ${definedStyle[variant]}
           ${definedStyle[color]}
-          px-2 py-1 text-center rounded-md flex items-center
+          px-2 py-1 text-center rounded-md
         `}
       >{children}</a>
     </NextLink>

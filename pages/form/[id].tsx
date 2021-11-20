@@ -68,7 +68,7 @@ const Form = ({ form }) => {
           ) : (
             <>
               <Link href="/dashboard" className="w-full md:w-auto md:px-4" variant='outlined' color='gray'>
-                  Exit
+                Exit
               </Link>
               <Button onClick={submitAnswer} className='w-full py-1 md:w-auto'>
                 Submit
