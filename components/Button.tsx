@@ -1,6 +1,6 @@
 type ButtonProps = {
   children: JSX.Element | string,
-  onClick: () => void | (() => {}),
+  onClick: () => void | (() => {}) | (() => string),
   disabled?: boolean,
   isLoading?: boolean,
   variant?: "filled" | "outlined",

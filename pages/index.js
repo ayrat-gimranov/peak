@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useSession, signIn } from 'next-auth/react';
 
 // components
-import Header from './components/Header';
+import Header from '../components/Header';
 
 const LandingPage = () => {
   const { data: session } = useSession();

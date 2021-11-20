@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 
-import Container from '../components/Container';
-import Card from '../components/Card';
-import Input from '../components/Input';
-import Header from "../components/Header";
+import Container from '../../components/Container';
+import Card from '../../components/Card';
+import Input from '../../components/Input';
+import Header from "../../components/Header";
 
 const NewForm = () => {
   const [name, setName] = useState('');
   const [color, setColor] = useState('');
 
-  useState(() => {
+  useEffect(() => {
     const newFormName = localStorage.getItem('newFormName');
     setName(newFormName);
   }, []);
@@ -20,9 +20,9 @@ const NewForm = () => {
       <Container>
         <Card className='space-y-4'>
           <p className='text-xl'>New form</p>
-          <Input label='Name' value={name} onChange={(e) => setName(e.target.value)} />
+          <Input label='Name' value={name} onChange={(e) => {setName(e.target.value)}} />
           {/* FIXME: need a color picker */}
-          <Input label='Color' value={color} onChange={(e) => setColor(e.target.value)} />
+          <Input label='Color' value={color} onChange={(e) => {setColor(e.target.value)}} />
         </Card>
       </Container>
     </div>

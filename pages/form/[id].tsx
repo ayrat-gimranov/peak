@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
 // components
-import Header from "../components/Header";
-import Container from "../components/Container";
-import Card from "../components/Card";
-import Input from "../components/Input";
-import Button from "../components/Button";
-import Link from "../components/Link";
+import Header from "../../components/Header";
+import Container from "../../components/Container";
+import Card from "../../components/Card";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
+import Link from "../../components/Link";
 
 const Form = ({ form }) => {
   // state
@@ -26,13 +26,16 @@ const Form = ({ form }) => {
     setCurrentQuestion(form.questions[previousIndex]);
   };
 
+  const goToDashboard = () => { window.location.href = '/dashboard' };
+
   const goToNextQuestion = () => {
     const isLastQuestion = form.questions.length === currentIndex + 1;
-    if (isLastQuestion) return window.location.href = '/dashboard'; // FIXME with proper redirect
+    if (isLastQuestion) return goToDashboard();  // FIXME with proper redirect
 
     setIsAnswerSubmitted(false);
 
     setCurrentQuestion(form.questions[currentIndex + 1]);
+    return;
   };
 
   return (
@@ -45,8 +48,7 @@ const Form = ({ form }) => {
         </Card>
         <Card className='mt-6'>
           <p className='mb-4 text-lg'>{currentQuestion.title}</p>
-          <Input label="Your answer" type="textarea">
-          </Input>
+          <Input label="Your answer" type="textarea" />
           {isAnswerSubmitted && (
             <div className='mt-2'>
               <p>The correct answer is:</p>

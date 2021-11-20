@@ -5,7 +5,7 @@ type InputProps = {
   name?: string,
   type?: string,
   value?: string,
-  onChange?: () => {} | (() => void),
+  onChange?: any,
 };
 
 const Input = ({ label, placeholder, className, name, type = "text", value, onChange }: InputProps) => {

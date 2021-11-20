@@ -1,13 +1,13 @@
 import NextLink from 'next/link';
 import { useSession } from 'next-auth/react';
 
-import Header from './components/Header';
-import Card from './components/Card';
-import Container from './components/Container';
-import Input from './components/Input';
-import Button from './components/Button';
-import Link from './components/Link';
-import ColoredSquare from './components/ColoredSquare';
+import Header from '../components/Header';
+import Card from '../components/Card';
+import Container from '../components/Container';
+import Input from '../components/Input';
+import Button from '../components/Button';
+import Link from '../components/Link';
+import ColoredSquare from '../components/ColoredSquare';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
