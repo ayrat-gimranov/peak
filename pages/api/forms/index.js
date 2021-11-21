@@ -1,4 +1,8 @@
-const index = (req, res) => {
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+const index = async (req, res) => {
   // mocked response
   res.status(200).json({
     forms: [

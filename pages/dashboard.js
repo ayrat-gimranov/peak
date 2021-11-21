@@ -1,6 +1,8 @@
 import NextLink from 'next/link';
 import { useSession } from 'next-auth/react';
 
+import { PrismaClient } from '@prisma/client';
+
 import Header from '../components/Header';
 import Card from '../components/Card';
 import Container from '../components/Container';
@@ -63,19 +65,29 @@ const Dashboard = ({ forms }) => {
   );
 };
 
-export async function getServerSideProps(context) {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/forms`);
-  const data = await res.json();
+// export async function getServerSideProps(context) {
+//   const res = await fetch(`${process.env.NEXTAUTH_URL}/api/forms`);
+//   const data = await res.json();
 
-  if (!data) {
-    return {
-      notFound: true,
-    };
-  }
+//   if (!data) {
+//     return {
+//       notFound: true,
+//     };
+//   }
 
-  return {
-    props: data, // will be passed to the page component as props
-  };
-}
+//   return {
+//     props: data, // will be passed to the page component as props
+//   };
+// }
+
+export const getServerSideProps = async ({ req }) => {
+  const prisma = new PrismaClient();
+
+  // const token = req.headers.AUTHORIZATION;
+  // const userId = await getUserId(token)
+  const data = await prisma.form.findMany();
+  console.log('data', data);
+  return { props: { forms: data } };
+};
 
 export default Dashboard;
