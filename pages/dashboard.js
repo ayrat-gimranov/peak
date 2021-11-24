@@ -65,21 +65,6 @@ const Dashboard = ({ forms }) => {
   );
 };
 
-// export async function getServerSideProps(context) {
-//   const res = await fetch(`${process.env.NEXTAUTH_URL}/api/forms`);
-//   const data = await res.json();
-
-//   if (!data) {
-//     return {
-//       notFound: true,
-//     };
-//   }
-
-//   return {
-//     props: data, // will be passed to the page component as props
-//   };
-// }
-
 export const getServerSideProps = async ({ req }) => {
   const prisma = new PrismaClient();
 
