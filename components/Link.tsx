@@ -14,12 +14,13 @@ const Link = ({
 }: LinkProps) => {
 
   const definedStyle = {
-    filled: 'text-white',
+    filled: 'border-none',
     outlined: 'border bg-transparent',
-    purple: 'bg-purple',
-    red: 'bg-red-600',
-    yellow: 'bg-yellow-500',
-    gray: 'text-gray-500 border-gray-500'
+    purple: 'bg-purple text-white',
+    red: 'bg-red-600 text-white',
+    yellow: 'bg-yellow-500 text-white',
+    gray: 'text-gray-500 border-gray-500',
+    white: 'bg-white text-gray-500',
   };
 
   return (
