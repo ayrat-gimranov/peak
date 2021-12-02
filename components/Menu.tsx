@@ -1,3 +1,4 @@
+import { signOut } from 'next-auth/react';
 import Dropdown from './Dropdown';
 
 type MenuProps = {
@@ -16,9 +17,9 @@ const Menu = ({ user }: MenuProps) => {
   );
 
   const items = [
-    { label: 'Dashboard', link: '/dashboard' },
-    { label: 'Account', link: '/account' },
-    { label: 'Sign out', link: '/signout', divider: true },
+    { label: 'Dashboard', type: 'link', link: '/dashboard' },
+    { label: 'Account', type: 'link', link: '/account' },
+    { label: 'Sign out', type: 'button', onClick: signOut, divider: true },
   ];
 
   return (

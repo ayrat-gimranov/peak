@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Menu from './Menu';
 
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useSession, signIn } from 'next-auth/react';
 
 const Header = () => {
   const { data: session } = useSession();
@@ -20,7 +20,7 @@ const Header = () => {
         {session ? (
           <Menu user={session.user} />
         ) : (
-          <span className='text-white'>Login</span>
+          <button onClick={() => signIn()} className='text-white'>Login</button>
         )}
       </div>
     </nav>

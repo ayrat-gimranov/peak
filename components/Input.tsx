@@ -2,7 +2,7 @@ type InputProps = {
   label?: string,
   placeholder?: string,
   className?: string,
-  name?: string | number,
+  name?: string,
   type?: string,
   value?: string,
   onChange?: any,
