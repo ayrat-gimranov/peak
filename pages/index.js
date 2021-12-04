@@ -30,7 +30,7 @@ const LandingPage = () => {
               Access Dashboard
             </Link>
           ) : (
-            <Button className="py-1 text-xl" color="white" onClick={signIn}>
+            <Button className="py-1 text-xl" color="white" onClick={() => signIn(null, { callbackUrl: '/dashboard' })}>
               Sign up
             </Button>
           )}

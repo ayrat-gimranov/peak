@@ -20,7 +20,7 @@ const Menu = ({ name }: MenuProps) => {
   const items = [
     { label: 'Dashboard', type: 'link', link: '/dashboard' },
     { label: 'Account', type: 'link', link: '/account' },
-    { label: 'Sign out', type: 'button', onClick: signOut, divider: true },
+    { label: 'Sign out', type: 'button', onClick: () => signOut({ callbackUrl: '/' }), divider: true },
   ];
 
   return (
