@@ -18,7 +18,7 @@ const Header = () => {
 
       <div>
         {session ? (
-          <Menu user={session.user} />
+          <Menu name={session.user.name} />
         ) : (
           <button onClick={() => signIn()} className='text-white'>Login</button>
         )}

@@ -2,16 +2,17 @@ import { signOut } from 'next-auth/react';
 import Dropdown from './Dropdown';
 
 type MenuProps = {
-  user: {},
+  name: String,
 };
 
-const Menu = ({ user }: MenuProps) => {
+const Menu = ({ name }: MenuProps) => {
+  const [firstName, lastName] = name.split(' ');
+  const initials = firstName.split('')[0] + lastName.split('')[0]
 
   const avatarButton = (
     <div className='flex items-center justify-center w-8 h-8 bg-white rounded-full text-purple'>
       <span>
-        {/* {user.initials} */}
-        JD
+        {initials.toUpperCase()}
       </span>
     </div>
   );

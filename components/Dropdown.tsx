@@ -41,8 +41,6 @@ const ButtonItem = ({active, item}) => (
 )
 
 const Dropdown = ({ button, items }: DropdownProps ) => {
-  console.log('items', items);
-
   return (
     <div>
       <Menu as="div" className="relative inline-block text-left">
