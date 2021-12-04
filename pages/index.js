@@ -35,7 +35,9 @@ const LandingPage = () => {
             </Button>
           )}
         </div>
-        <Image src={studying} />
+        <div className="m-20">
+          <Image src={studying} />
+        </div>
       </div>
     </div>
   );
