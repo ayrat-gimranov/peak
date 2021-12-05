@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
 import { PrismaClient } from '@prisma/client';
@@ -16,11 +18,24 @@ import { faPenAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Dashboard = ({ forms }) => {
   const { data: session } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!session) router.push('/');
+  }, []);
 
   const saveFormNameInLocalStorage = () => {
     const newFormName = document.querySelector('#newFormName').value;
     localStorage.setItem('newFormName', newFormName);
   };
+
+  if (!session) {
+    return (
+      <div className="flex flex-col min-h-screen bg-gray-50">
+        <Header />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
