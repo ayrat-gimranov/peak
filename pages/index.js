@@ -21,7 +21,7 @@ const LandingPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 p-4">
         <div className="flex flex-col items-baseline justify-center space-y-6">
           <h2 className="text-5xl text-white">Train your memory like a champion.</h2>
           <h3 className="text-xl text-gray-200">Inspired from a technique used to hit the memory world record.</h3>
