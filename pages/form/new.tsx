@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare } from '@fortawesome/free-regular-svg-icons';
@@ -11,6 +12,9 @@ import Button from '../../components/Button';
 import Link from '../../components/Link';
 
 const NewForm = () => {
+  const { data: session } = useSession();
+  console.log('session', session);
+
   const [name, setName] = useState('');
   const [color, setColor] = useState('');
   const [questions, setQuestions] = useState([{id: 1, title: '', answer: ''}]);
