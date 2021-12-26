@@ -13,7 +13,6 @@ import Link from '../../components/Link';
 
 const NewForm = () => {
   const { data: session } = useSession();
-  console.log('session', session);
 
   const [name, setName] = useState('');
   const [color, setColor] = useState('');
@@ -38,7 +37,6 @@ const NewForm = () => {
   };
 
   const handleSaveForm = async () => {
-    console.log('form', questions);
     const res = await fetch('/api/forms/post', {
       method: 'POST',
       body: JSON.stringify({
@@ -50,7 +48,6 @@ const NewForm = () => {
     })
 
     const data = await res.json();
-    console.log('data', data);
   };
 
   const handleChangeQuestion = (e) => {
