@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
+import { useSession, getSession } from 'next-auth/react';
 
 import { PrismaClient } from '@prisma/client';
 
@@ -17,6 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Dashboard = ({ forms }) => {
+  console.log('forms', forms);
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -80,12 +81,20 @@ const Dashboard = ({ forms }) => {
   );
 };
 
-export const getServerSideProps = async ({ req }) => {
+export const getServerSideProps = async (ctx) => {
   const prisma = new PrismaClient();
 
-  // const token = req.headers.AUTHORIZATION;
-  // const userId = await getUserId(token)
-  const data = await prisma.form.findMany();
+  const data = await prisma.form.findMany({
+    where: {
+      owner: {
+        id: await getSession(ctx).user,
+      },
+    },
+    select: {
+      name: true,
+      color: true,
+    },
+  });
   console.log('data', data);
   return { props: { forms: data } };
 };
