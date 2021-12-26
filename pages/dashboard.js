@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useSession, getSession } from 'next-auth/react';
+import Swal from 'sweetalert2';
 import prisma from '../prismaInstance';
 
 import Header from '../components/Header';
@@ -15,8 +16,9 @@ import ColoredSquare from '../components/ColoredSquare';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
-const Dashboard = ({ forms }) => {
+const Dashboard = ({ initialForms }) => {
   const { data: session } = useSession();
+  const [forms, setForms] = useState(initialForms);
   const router = useRouter();
 
   useEffect(() => {
@@ -35,6 +37,41 @@ const Dashboard = ({ forms }) => {
       </div>
     );
   }
+
+  const handleEditForm = (event) => {
+    event.preventDefault();
+    console.log('edit');
+  };
+
+  const handleDeleteForm = (e, formId) => {
+    e.preventDefault();
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'This will permanentelely delete this form and all its questions.',
+      icon: 'warning',
+      showCloseButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it.',
+      cancelButtonText: "No, don't do it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch('/api/forms/delete', {
+          method: 'DELETE',
+          body: JSON.stringify({ formId }),
+        }).then((res) => {
+          if (res.ok) {
+            const copyForms = [...forms];
+            const index = copyForms.findIndex((form) => form.id === formId);
+            copyForms.splice(index, 1);
+            setForms(copyForms);
+            Swal.fire('Deleted!', '', 'success');
+          } else {
+            Swal.fire('Oups!', 'Something went wrong. Reload and try again.', 'error');
+          }
+        });
+      }
+    });
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
@@ -63,10 +100,10 @@ const Dashboard = ({ forms }) => {
                   <small>{form.questions}</small>
                 </div>
                 <div className="flex flex-col space-y-2 md:space-x-2 md:flex-row md:space-y-0">
-                  <Button color="yellow">
+                  <Button color="yellow" onClick={handleEditForm} className="z-30">
                     <FontAwesomeIcon icon={faPenAlt} size="sm" />
                   </Button>
-                  <Button color="red">
+                  <Button color="red" onClick={(e) => handleDeleteForm(e, form.id)}>
                     <FontAwesomeIcon icon={faTrashAlt} size="sm" />
                   </Button>
                 </div>
@@ -80,7 +117,7 @@ const Dashboard = ({ forms }) => {
 };
 
 export const getServerSideProps = async (ctx) => {
-  const forms = await prisma.form.findMany({
+  const initialForms = await prisma.form.findMany({
     where: {
       owner: {
         id: await (await getSession(ctx)).user.id,
@@ -93,7 +130,7 @@ export const getServerSideProps = async (ctx) => {
     },
   });
 
-  return { props: { forms } };
+  return { props: { initialForms } };
 };
 
 export default Dashboard;
