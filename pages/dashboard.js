@@ -92,6 +92,7 @@ export const getServerSideProps = async (ctx) => {
       },
     },
     select: {
+      id: true,
       name: true,
       color: true,
     },

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import prisma from '../../prismaInstance';
 
 // components
 import Header from "../../components/Header";
@@ -8,7 +9,7 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Link from "../../components/Link";
 
-const Form = ({ form }) => {
+const Form = ({form}) => {
   // state
   const [currentQuestion, setCurrentQuestion] = useState(form.questions[0]);
   const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
@@ -83,9 +84,18 @@ const Form = ({ form }) => {
   );
 };
 
-export async function getServerSideProps(context) {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/forms/${context.params.id}`);
-  const form = await res.json();
+export async function getServerSideProps(ctx) {
+  const form = await prisma.form.findUnique({
+    where: {
+      id: Number(ctx.params.id),
+    },
+    select: {
+      id: true,
+      name: true,
+      color: true,
+      questions: true,
+    }
+  });
 
   if (!form) {
     return {
@@ -94,7 +104,7 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: form, // will be passed to the page component as props
+    props: { form }, // will be passed to the page component as props
   };
 }
 
