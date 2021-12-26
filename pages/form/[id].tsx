@@ -12,6 +12,7 @@ import Link from "../../components/Link";
 const Form = ({form}) => {
   // state
   const [currentQuestion, setCurrentQuestion] = useState(form.questions[0]);
+  const [answer, setAnswer] = useState('');
   const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
 
   // vars
@@ -22,6 +23,7 @@ const Form = ({form}) => {
   const submitAnswer = () => setIsAnswerSubmitted(true);
 
   const goTwoQuestionsBack = () => {
+    setAnswer('');
     setIsAnswerSubmitted(false);
     const previousIndex = currentIndex - 2 < 0 ? 0 : currentIndex - 2;
     setCurrentQuestion(form.questions[previousIndex]);
@@ -30,6 +32,7 @@ const Form = ({form}) => {
   const goToDashboard = () => { window.location.href = '/dashboard' };
 
   const goToNextQuestion = () => {
+    setAnswer('');
     const isLastQuestion = form.questions.length === currentIndex + 1;
     if (isLastQuestion) return goToDashboard();  // FIXME with proper redirect
 
@@ -49,7 +52,7 @@ const Form = ({form}) => {
         </Card>
         <Card className='mt-6'>
           <p className='mb-4 text-lg'>{currentQuestion.title}</p>
-          <Input label="Your answer" type="textarea" />
+          <Input label="Your answer" type="textarea" value={answer} onChange={(e) => setAnswer(e.target.value)} />
           {isAnswerSubmitted && (
             <div className='mt-2'>
               <p>The correct answer is:</p>
