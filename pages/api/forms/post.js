@@ -7,9 +7,12 @@ const handler = async (req, res) => {
   console.log('payload', payload);
   const data = await prisma.form.create({
     data: {
-      name: 'name',
-      color: 'color',
-      userId: 1,
+      name: payload.name,
+      color: payload.color,
+      questions: {
+        create: payload.questions,
+      },
+      userId: payload.userId,
     },
   });
 

@@ -41,7 +41,7 @@ const NewForm = () => {
     console.log('form', questions);
     const res = await fetch('/api/forms/post', {
       method: 'POST',
-      body: JSON.stringify({ name, color, questions })
+      body: JSON.stringify({ name, color, questions, userId: session.user.id })
     })
 
     const data = await res.json();
