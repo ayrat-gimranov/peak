@@ -17,7 +17,7 @@ const NewForm = () => {
 
   const [name, setName] = useState('');
   const [color, setColor] = useState('');
-  const [questions, setQuestions] = useState([{id: 1, title: '', answer: ''}]);
+  const [questions, setQuestions] = useState([{ref: 1, title: '', answer: ''}]);
 
   useEffect(() => {
     const newFormName = localStorage.getItem('newFormName');
@@ -25,14 +25,14 @@ const NewForm = () => {
   }, []);
 
   const handleAddQuestion = () => {
-    const lastId = questions[questions.length - 1].id;
-    const newQuestion = {id: lastId + 1, title: '', answer: ''};
+    const lastRef = questions[questions.length - 1].ref;
+    const newQuestion = {ref: lastRef + 1, title: '', answer: ''};
     setQuestions([...questions, newQuestion]);
   };
 
-  const handleDeleteQuestion = (id: Number) => {
+  const handleDeleteQuestion = (ref: Number) => {
     const copyQuestions = [...questions];
-    const index = copyQuestions.findIndex((_question) => _question.id === id);
+    const index = copyQuestions.findIndex((_question) => _question.ref === ref);
     copyQuestions.splice(index, 1);
     setQuestions([...copyQuestions]);
   };
@@ -41,7 +41,12 @@ const NewForm = () => {
     console.log('form', questions);
     const res = await fetch('/api/forms/post', {
       method: 'POST',
-      body: JSON.stringify({ name, color, questions, userId: session.user.id })
+      body: JSON.stringify({
+        name,
+        color,
+        questions: questions.map((question) => ({title: question.title, answer: question.answer})),
+        userId: session.user.id,
+      })
     })
 
     const data = await res.json();
@@ -50,10 +55,10 @@ const NewForm = () => {
 
   const handleChangeQuestion = (e) => {
     const { name, value } = e.target;
-    const [attribute, id] = name.split('_');
+    const [attribute, ref] = name.split('_');
 
     const copyQuestions = [...questions];
-    const question = copyQuestions.find((_question) => _question.id == Number(id))
+    const question = copyQuestions.find((_question) => _question.ref == Number(ref))
     question[attribute] = value;
 
     setQuestions([...copyQuestions]);
@@ -77,10 +82,10 @@ const NewForm = () => {
 
         <div className='mb-20 space-y-4'>
           {questions.map((question) => (
-            <Card key={question.id} color={color} className='space-y-4'>
-              <Input name={`title_${question.id}`} label='Title' value={question.title} onChange={handleChangeQuestion} />
-              <Input name={`answer_${question.id}`} label='Answer' type='textarea' value={question.answer} onChange={handleChangeQuestion} />
-              <Button onClick={() => handleDeleteQuestion(question.id)} variant='outlined' color='gray' className='block mx-auto text-sm'>
+            <Card key={question.ref} color={color} className='space-y-4'>
+              <Input name={`title_${question.ref}`} label='Title' value={question.title} onChange={handleChangeQuestion} />
+              <Input name={`answer_${question.ref}`} label='Answer' type='textarea' value={question.answer} onChange={handleChangeQuestion} />
+              <Button onClick={() => handleDeleteQuestion(question.ref)} variant='outlined' color='gray' className='block mx-auto text-sm'>
                 Delete
               </Button>
             </Card>
