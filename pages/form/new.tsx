@@ -11,6 +11,13 @@ import Header from "../../components/Header";
 import Button from '../../components/Button';
 import Link from '../../components/Link';
 
+interface User {
+  id?: string | null;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+}
+
 const NewForm = () => {
   const { data: session } = useSession();
 
@@ -37,13 +44,14 @@ const NewForm = () => {
   };
 
   const handleSaveForm = async () => {
+    const user: User = session.user;
     const res = await fetch('/api/forms/post', {
       method: 'POST',
       body: JSON.stringify({
         name,
         color,
         questions: questions.map((question) => ({title: question.title, answer: question.answer})),
-        userId: session.user.id,
+        userId: user.id,
       })
     })
 
