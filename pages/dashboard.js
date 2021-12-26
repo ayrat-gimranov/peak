@@ -88,7 +88,7 @@ export const getServerSideProps = async (ctx) => {
   const data = await prisma.form.findMany({
     where: {
       owner: {
-        id: await getSession(ctx).user,
+        id: await (await getSession(ctx)).user.id,
       },
     },
     select: {
