@@ -31,7 +31,7 @@ const LandingPage = () => {
             </Link>
           ) : (
             <Button className="py-1 text-xl" color="white" onClick={() => signIn(null, { callbackUrl: '/dashboard' })}>
-              Sign up
+              Sign in
             </Button>
           )}
         </div>

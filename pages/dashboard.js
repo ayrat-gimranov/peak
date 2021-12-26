@@ -19,6 +19,7 @@ import { faPenAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 const Dashboard = ({ forms }) => {
   console.log('forms', forms);
   const { data: session } = useSession();
+  console.log('session', session);
   const router = useRouter();
 
   useEffect(() => {
