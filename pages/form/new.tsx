@@ -22,7 +22,7 @@ const NewForm = () => {
   const { data: session } = useSession();
 
   const [name, setName] = useState('');
-  const [color, setColor] = useState('');
+  const [color, setColor] = useState('#' + Math.floor(Math.random() * (256 * 256 * 256)).toString(16).padStart(6, '0'));
   const [questions, setQuestions] = useState([{ref: 1, title: '', answer: ''}]);
 
   useEffect(() => {
