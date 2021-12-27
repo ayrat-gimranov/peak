@@ -18,7 +18,7 @@ const Link = ({
     outlined: 'border bg-transparent',
     purple: 'bg-purple text-white',
     red: 'bg-red-600 text-white',
-    yellow: 'bg-yellow-500 text-white',
+    yellow: 'bg-yellow-500 text-white hover:bg-yellow-600',
     gray: 'text-gray-500 border-gray-500',
     white: 'bg-white text-gray-500',
   };

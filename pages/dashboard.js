@@ -17,30 +17,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Dashboard = ({ initialForms }) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [forms, setForms] = useState(initialForms);
   const router = useRouter();
 
   useEffect(() => {
-    if (!session) router.push('/');
-  }, []);
+    if (!session && status !== 'loading') router.push('/');
+  }, [session, status]);
 
   const saveFormNameInLocalStorage = () => {
     const newFormName = document.querySelector('#newFormName').value;
     localStorage.setItem('newFormName', newFormName);
-  };
-
-  if (!session) {
-    return (
-      <div className="flex flex-col min-h-screen bg-gray-50">
-        <Header />
-      </div>
-    );
-  }
-
-  const handleEditForm = (event) => {
-    event.preventDefault();
-    console.log('edit');
   };
 
   const handleDeleteForm = (e, formId) => {
@@ -73,6 +60,14 @@ const Dashboard = ({ initialForms }) => {
     });
   };
 
+  if (!session) {
+    return (
+      <div className="flex flex-col min-h-screen bg-gray-50">
+        <Header />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
@@ -91,8 +86,8 @@ const Dashboard = ({ initialForms }) => {
         <h3 className="mt-6 mb-2 text-xl">Your forms</h3>
 
         {forms.map((form) => (
-          <NextLink href={`/form/${form.id}`}>
-            <a key={form.id}>
+          <NextLink href={`/form/${form.id}`} key={form.id}>
+            <a>
               <Card className="flex items-center justify-between mb-4 space-x-4">
                 <ColoredSquare color={form.color} />
                 <div className="flex-1">
@@ -100,9 +95,9 @@ const Dashboard = ({ initialForms }) => {
                   <small>{form.questions}</small>
                 </div>
                 <div className="flex flex-col space-y-2 md:space-x-2 md:flex-row md:space-y-0">
-                  <Button color="yellow" onClick={handleEditForm} className="z-30">
+                  <Link color="yellow" href={`/forms/${form.id}/edit`}>
                     <FontAwesomeIcon icon={faPenAlt} size="sm" />
-                  </Button>
+                  </Link>
                   <Button color="red" onClick={(e) => handleDeleteForm(e, form.id)}>
                     <FontAwesomeIcon icon={faTrashAlt} size="sm" />
                   </Button>
@@ -120,7 +115,7 @@ export const getServerSideProps = async (ctx) => {
   const initialForms = await prisma.form.findMany({
     where: {
       owner: {
-        id: await (await getSession(ctx)).user.id,
+        id: await (await getSession(ctx))?.user.id,
       },
     },
     select: {
@@ -133,4 +128,5 @@ export const getServerSideProps = async (ctx) => {
   return { props: { initialForms } };
 };
 
+Dashboard.auth = true;
 export default Dashboard;
