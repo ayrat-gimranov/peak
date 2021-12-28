@@ -9,7 +9,7 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Link from "../../components/Link";
 
-const Form = ({form}) => {
+const Form = ({ form }) => {
   // state
   const [currentQuestion, setCurrentQuestion] = useState(form.questions[0]);
   const [answer, setAnswer] = useState('');

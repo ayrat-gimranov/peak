@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare } from '@fortawesome/free-regular-svg-icons';
@@ -20,10 +21,12 @@ interface User {
 
 const NewForm = () => {
   const { data: session } = useSession();
+  const router = useRouter();
 
   const [name, setName] = useState('');
   const [color, setColor] = useState('#' + Math.floor(Math.random() * (256 * 256 * 256)).toString(16).padStart(6, '0'));
   const [questions, setQuestions] = useState([{ref: 1, title: '', answer: ''}]);
+
 
   useEffect(() => {
     const newFormName = localStorage.getItem('newFormName');
@@ -45,7 +48,7 @@ const NewForm = () => {
 
   const handleSaveForm = async () => {
     const user: User = session.user;
-    const res = await fetch('/api/forms/post', {
+    fetch('/api/forms/post', {
       method: 'POST',
       body: JSON.stringify({
         name,
@@ -54,8 +57,11 @@ const NewForm = () => {
         userId: user.id,
       })
     })
+    .then((res) => {
+      if (res.ok) router.push('/dashboard');
+    })
+    .catch((error) => console.log('error', error))
 
-    const data = await res.json();
   };
 
   const handleChangeQuestion = (e) => {

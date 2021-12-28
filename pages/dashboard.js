@@ -77,7 +77,7 @@ const Dashboard = ({ initialForms }) => {
           <p className="mb-3 text-gray-500">To practice your skills</p>
           <div className="flex space-x-1">
             <Input name="newFormName" className="flex-1" label="Name" placeholder="Give your survey a name" />
-            <Link onClick={saveFormNameInLocalStorage} href="/form/new" className="flex items-center">
+            <Link onClick={saveFormNameInLocalStorage} href="/forms/new" className="flex items-center">
               Create
             </Link>
           </div>
@@ -86,7 +86,7 @@ const Dashboard = ({ initialForms }) => {
         <h3 className="mt-6 mb-2 text-xl">Your forms</h3>
 
         {forms.map((form) => (
-          <NextLink href={`/form/${form.id}`} key={form.id}>
+          <NextLink href={`/forms/${form.id}`} key={form.id}>
             <a>
               <Card className="flex items-center justify-between mb-4 space-x-4">
                 <ColoredSquare color={form.color} />
@@ -95,7 +95,7 @@ const Dashboard = ({ initialForms }) => {
                   <small>{form.questions}</small>
                 </div>
                 <div className="flex flex-col space-y-2 md:space-x-2 md:flex-row md:space-y-0">
-                  <Link color="yellow" href={`/forms/${form.id}/edit`}>
+                  <Link color="yellow" href={`/forms/edit/${form.id}`}>
                     <FontAwesomeIcon icon={faPenAlt} size="sm" />
                   </Link>
                   <Button color="red" onClick={(e) => handleDeleteForm(e, form.id)}>
