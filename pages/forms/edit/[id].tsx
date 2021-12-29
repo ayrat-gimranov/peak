@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Swal from 'sweetalert2';
 import prisma from '../../../prismaInstance';
 
 // fontawesome
@@ -35,9 +35,40 @@ const EditForm = ({ form }) => {
   };
 
   const handleDeleteQuestion = (index) => {
+    const question = questions[index];
     const copyQuestions = [...questions];
-    copyQuestions.splice(index, 1);
-    setQuestions([...copyQuestions]);
+
+    const removeQuestionFromState = () => {
+      copyQuestions.splice(index, 1);
+      setQuestions([...copyQuestions]);
+    }
+
+    if (question.id) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'This will permanentelely delete this question.',
+        icon: 'warning',
+        showCloseButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it.',
+        cancelButtonText: "No, don't do it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch('/api/questions/delete', {
+            method: 'DELETE',
+            body: JSON.stringify({
+              id: question.id,
+            })
+          }).then((res) => {
+            if (!res.ok) throw new Error();
+            removeQuestionFromState();
+          })
+          .catch((error) => console.log('error', error))
+        }
+      });
+    } else {
+      removeQuestionFromState();
+    }
   };
 
   const handleSaveForm = async () => {
@@ -58,6 +89,7 @@ const EditForm = ({ form }) => {
             fetch('/api/questions/patch', {
               method: 'PATCH',
               body: JSON.stringify({
+                formId: form.id,
                 question,
               })
             })

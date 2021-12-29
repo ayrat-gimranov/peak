@@ -3,7 +3,7 @@ import prisma from '../../../prismaInstance';
 const handler = async (req, res) => {
   const payload = JSON.parse(req.body);
 
-  const deletePosts = prisma.question.deleteMany({
+  const deletePosts = prisma.question.delete({
     where: {
       formId: payload.formId,
     },
