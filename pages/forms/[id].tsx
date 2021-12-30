@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import safeJsonStringify from 'safe-json-stringify';
 import prisma from '../../prismaInstance';
 
@@ -17,8 +17,14 @@ const Form = ({ form }) => {
   const [isAnswerSubmitted, setIsAnswerSubmitted] = useState(false);
 
   // vars
+  const inputRef = useRef(null);
   const currentIndex = form.questions.findIndex((question) => question.id === currentQuestion.id);
   const numberOfQuestions = form.questions.length;
+
+  // useEffect
+  useEffect(() => {
+    if (inputRef.current) inputRef.current?.focus()
+  }, [currentQuestion])
 
   // funcs
   const submitAnswer = () => setIsAnswerSubmitted(true);
@@ -53,7 +59,13 @@ const Form = ({ form }) => {
         </Card>
         <Card className='mt-6'>
           <p className='mb-4 text-lg'>{currentQuestion.title}</p>
-          <Input label="Your answer" type="textarea" value={answer} onChange={(e) => setAnswer(e.target.value)} />
+          <Input
+            type="textarea"
+            innerRef={inputRef}
+            label="Your answer"
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+          />
           {isAnswerSubmitted && (
             <div className='mt-2'>
               <p>The correct answer is:</p>

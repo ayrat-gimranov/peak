@@ -1,3 +1,5 @@
+import React from 'react';
+
 type InputProps = {
   label?: string,
   placeholder?: string,
@@ -6,9 +8,11 @@ type InputProps = {
   type?: string,
   value?: string,
   onChange?: any,
+  innerRef?: any,
 };
 
-const Input = ({ label, placeholder, className, name, type = "text", value, onChange }: InputProps) => {
+const Input = (props: InputProps) => {
+  const { label, placeholder, className, name, type = "text", value, onChange, innerRef = null } = props;
 
   return (
     <div
@@ -36,6 +40,7 @@ const Input = ({ label, placeholder, className, name, type = "text", value, onCh
           value={value}
           onChange={onChange}
           placeholder={placeholder}
+          ref={innerRef}
         />
       ) : (
         <input
@@ -46,6 +51,7 @@ const Input = ({ label, placeholder, className, name, type = "text", value, onCh
           value={value}
           onChange={onChange}
           placeholder={placeholder}
+          ref={innerRef}
         />
       )}
     </div>
