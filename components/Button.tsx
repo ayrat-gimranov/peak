@@ -1,5 +1,5 @@
 type ButtonProps = {
-  children: JSX.Element | string,
+  children: JSX.Element | JSX.Element[] | string,
   onClick: any,
   disabled?: boolean,
   isLoading?: boolean,
@@ -18,22 +18,28 @@ const Button = ({
   className = ""
 }: ButtonProps) => {
 
-  const definedStyle = {
-    filled: 'border-none',
-    outlined: 'border bg-transparent',
-    purple: 'bg-purple text-white',
-    red: 'bg-red-600 text-white hover:bg-red-700',
-    yellow: 'bg-yellow-500 text-white hover:bg-yellow-600',
-    gray: 'text-gray-500 border-gray-500',
-    white: 'text-gray-500 bg-white'
-  };
+  const styles = {
+    filled: {
+      purple: 'bg-purple text-white',
+      red: 'bg-red-600 text-white hover:bg-red-700',
+      yellow: 'bg-yellow-500 text-white hover:bg-yellow-600',
+      gray: 'text-gray-500 border-gray-500',
+      white: 'text-gray-500 bg-white'
+    },
+    outlined: {
+      purple: 'border border-purple text-purple',
+      red: 'border border-red-600 text-red-600 hover:border-red-700 hover:text-red-700',
+      yellow: 'border border-yellow-500 text-yellow-500 hover:border-yellow-600 hover:text-yellow-600',
+      gray: 'border text-gray-500 border-gray-500',
+      white: 'border text-gray-500 border-white'
+    }
+  }
 
   return (
     <button
       className={`
         rounded-md px-2 md:px-4
-        ${definedStyle[variant]}
-        ${definedStyle[color]}
+        ${styles[variant][color]}
         ${className}
       `}
       onClick={onClick}

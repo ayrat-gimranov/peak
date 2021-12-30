@@ -13,15 +13,22 @@ const Link = ({
   href, children, className = '', color = 'purple', variant = 'filled', onClick,
 }: LinkProps) => {
 
-  const definedStyle = {
-    filled: 'border-none',
-    outlined: 'border bg-transparent',
-    purple: 'bg-purple text-white',
-    red: 'bg-red-600 text-white',
-    yellow: 'bg-yellow-500 text-white hover:bg-yellow-600',
-    gray: 'text-gray-500 border-gray-500',
-    white: 'bg-white text-gray-500',
-  };
+  const styles = {
+    filled: {
+      purple: 'bg-purple text-white',
+      red: 'bg-red-600 text-white',
+      yellow: 'bg-yellow-500 text-white hover:bg-yellow-600',
+      gray: 'text-gray-500 border-gray-500',
+      white: 'bg-white text-gray-500',
+    },
+    outlined: {
+      purple: 'border border-purple text-purple',
+      red: 'border border-red-600 text-red-600',
+      yellow: 'border border-yellow-500 text-yellow-500 hover:border-yellow-600 hover:text-yellow-600',
+      gray: 'border text-gray-500 border-gray-500',
+      white: 'border border-white text-gray-500',
+    }
+  }
 
   return (
     <NextLink href={href}>
@@ -29,8 +36,7 @@ const Link = ({
         onClick={onClick}
         className={`
           ${className}
-          ${definedStyle[variant]}
-          ${definedStyle[color]}
+          ${styles[variant][color]}
           px-2 py-1 text-center rounded-md
         `}
       >{children}</a>
