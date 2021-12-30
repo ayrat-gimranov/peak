@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useSession, getSession } from 'next-auth/react';
 import Swal from 'sweetalert2';
@@ -9,12 +8,8 @@ import Header from '../components/Header';
 import Card from '../components/Card';
 import Container from '../components/Container';
 import Input from '../components/Input';
-import Button from '../components/Button';
+import FormCard from '../components/FormCard';
 import Link from '../components/Link';
-import ColoredSquare from '../components/ColoredSquare';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Dashboard = ({ initialForms }) => {
   const { data: session, status } = useSession();
@@ -86,25 +81,7 @@ const Dashboard = ({ initialForms }) => {
         <h3 className="mt-6 mb-2 text-xl">Your forms</h3>
 
         {forms.map((form) => (
-          <NextLink href={`/forms/${form.id}`} key={form.id}>
-            <a>
-              <Card className="flex items-center justify-between mb-4 space-x-4">
-                <ColoredSquare color={form.color} />
-                <div className="flex-1">
-                  <p>{form.name}</p>
-                  <small>{form.questions}</small>
-                </div>
-                <div className="flex flex-col space-y-2 md:space-x-2 md:flex-row md:space-y-0">
-                  <Link color="yellow" href={`/forms/edit/${form.id}`}>
-                    <FontAwesomeIcon icon={faPenAlt} size="sm" />
-                  </Link>
-                  <Button color="red" onClick={(e) => handleDeleteForm(e, form.id)}>
-                    <FontAwesomeIcon icon={faTrashAlt} size="sm" />
-                  </Button>
-                </div>
-              </Card>
-            </a>
-          </NextLink>
+          <FormCard key={form.id} form={form} handleDeleteForm={handleDeleteForm} />
         ))}
       </Container>
     </div>
