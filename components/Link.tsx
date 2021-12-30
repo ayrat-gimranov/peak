@@ -15,14 +15,14 @@ const Link = ({
 
   const styles = {
     filled: {
-      purple: 'bg-purple text-white',
+      purple: 'bg-purple text-white hover:bg-purple-dark',
       red: 'bg-red-600 text-white',
       yellow: 'bg-yellow-500 text-white hover:bg-yellow-600',
       gray: 'text-gray-500 border-gray-500',
       white: 'bg-white text-gray-500',
     },
     outlined: {
-      purple: 'border border-purple text-purple',
+      purple: 'border border-purple text-purple hover:border-purple-dark',
       red: 'border border-red-600 text-red-600',
       yellow: 'border border-yellow-500 text-yellow-500 hover:border-yellow-600 hover:text-yellow-600',
       gray: 'border text-gray-500 border-gray-500',
