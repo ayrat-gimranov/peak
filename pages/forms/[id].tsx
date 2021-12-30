@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import safeJsonStringify from 'safe-json-stringify';
 import prisma from '../../prismaInstance';
 
 // components
@@ -88,17 +89,28 @@ const Form = ({ form }) => {
 };
 
 export async function getServerSideProps(ctx) {
-  const form = await prisma.form.findUnique({
+  const data = await prisma.form.findUnique({
     where: {
       id: Number(ctx.params.id),
     },
-    select: {
-      id: true,
-      name: true,
-      color: true,
+    include: {
       questions: true,
     }
+    // select: {
+    //   id: true,
+    //   name: true,
+    //   color: true,
+      // questions: {
+      //   select: {
+      //     id: true,
+      //     title: true,
+      //     answer: true,
+      //   }
+      // },
+    // }
   });
+
+  const form = JSON.parse(safeJsonStringify(data));
 
   if (!form) {
     return {

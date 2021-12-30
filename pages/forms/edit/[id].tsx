@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Swal from 'sweetalert2';
+import safeJsonStringify from 'safe-json-stringify';
 import prisma from '../../../prismaInstance';
 
 // fontawesome
@@ -119,7 +120,7 @@ const EditForm = ({ form }) => {
       <Header />
       <Container>
         <Card className='space-y-4'>
-          <p className='text-xl'>Your new form</p>
+          <p className='text-xl'>Edit your new form</p>
           <Input label='Name' value={name} onChange={(e) => {setName(e.target.value)}} />
           <Input label='Color' type='color' value={color} onChange={(e) => {setColor(e.target.value)}} />
         </Card>
@@ -154,17 +155,20 @@ const EditForm = ({ form }) => {
 };
 
 export async function getServerSideProps(ctx) {
-  const form = await prisma.form.findUnique({
+  const data = await prisma.form.findUnique({
     where: {
       id: Number(ctx.params.id),
     },
-    select: {
-      id: true,
-      name: true,
-      color: true,
-      questions: true,
+    include: {
+      questions: {
+        orderBy: {
+          id: 'asc',
+        },
+      }
     }
   });
+
+  const form = JSON.parse(safeJsonStringify(data));
 
   if (!form) {
     return {

@@ -123,6 +123,9 @@ export const getServerSideProps = async (ctx) => {
       name: true,
       color: true,
     },
+    orderBy: {
+      createdAt: 'desc',
+    },
   });
 
   return { props: { initialForms } };
