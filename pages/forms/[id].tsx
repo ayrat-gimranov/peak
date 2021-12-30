@@ -94,20 +94,12 @@ export async function getServerSideProps(ctx) {
       id: Number(ctx.params.id),
     },
     include: {
-      questions: true,
+      questions: {
+        orderBy: {
+          id: 'asc'
+        }
+      },
     }
-    // select: {
-    //   id: true,
-    //   name: true,
-    //   color: true,
-      // questions: {
-      //   select: {
-      //     id: true,
-      //     title: true,
-      //     answer: true,
-      //   }
-      // },
-    // }
   });
 
   const form = JSON.parse(safeJsonStringify(data));
@@ -119,7 +111,7 @@ export async function getServerSideProps(ctx) {
   }
 
   return {
-    props: { form }, // will be passed to the page component as props
+    props: { form },
   };
 }
 
