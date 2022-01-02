@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import Swal from 'sweetalert2';
 import safeJsonStringify from 'safe-json-stringify';
 import prisma from '../../../prismaInstance';
+import Swal from 'sweetalert2';
 
 // fontawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,12 +16,8 @@ import Header from "../../../components/Header";
 import Button from '../../../components/Button';
 import Link from '../../../components/Link';
 
-interface User {
-  id?: string | null;
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
-}
+// utils
+import fireSwal from '../../../utils/fireSwal';
 
 const EditForm = ({ form }) => {
   const router = useRouter();
@@ -45,34 +41,30 @@ const EditForm = ({ form }) => {
     }
 
     if (question.id) {
-      Swal.fire({
-        title: 'Are you sure?',
-        text: 'This will permanentelely delete this question.',
-        icon: 'warning',
-        showCloseButton: true,
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it.',
-        cancelButtonText: "No, don't do it!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          fetch('/api/questions/delete', {
-            method: 'DELETE',
-            body: JSON.stringify({
-              id: question.id,
+      fireSwal.delete('This will permanently delete this question.')
+        .then((result) => {
+          if (result.isConfirmed) {
+
+            fetch('/api/questions/delete', {
+              method: 'DELETE',
+              body: JSON.stringify({
+                id: question.id,
+              })
+            }).then((res) => {
+              if (!res.ok) throw new Error();
+              removeQuestionFromState();
+              fireSwal.successfullyDeleted('Question deleted!')
             })
-          }).then((res) => {
-            if (!res.ok) throw new Error();
-            removeQuestionFromState();
-          })
-          .catch((error) => console.log('error', error))
-        }
-      });
+            .catch(() => fireSwal.error())
+          }
+        });
     } else {
       removeQuestionFromState();
     }
   };
 
   const handleSaveForm = async () => {
+    fireSwal.loading();
     fetch('/api/forms/patch', {
       method: 'PATCH',
       body: JSON.stringify({
@@ -95,12 +87,15 @@ const EditForm = ({ form }) => {
               })
             })
           })
-        ).then(() => router.push('/dashboard'))
+        ).then(() => {
+          const closingCallback = () => router.push('/dashboard')
+          fireSwal.success({ message: 'Form saved!', closingCallback });
+        })
       } catch (error) {
         throw new Error('Something went wrong when updating the questions.')
       }
     })
-    .catch((error) => console.log('error', error))
+    .catch(() => fireSwal.error())
 
   };
 
@@ -179,7 +174,7 @@ export async function getServerSideProps(ctx) {
   }
 
   return {
-    props: { form }, // will be passed to the page component as props
+    props: { form },
   };
 }
 

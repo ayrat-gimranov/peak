@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSession, getSession } from 'next-auth/react';
-import Swal from 'sweetalert2';
 import prisma from '../prismaInstance';
 
+// components
 import Header from '../components/Header';
 import Card from '../components/Card';
 import Container from '../components/Container';
 import Input from '../components/Input';
 import FormCard from '../components/FormCard';
 import Link from '../components/Link';
+
+// utils
+import fireSwal from '../utils/fireSwal';
 
 const Dashboard = ({ initialForms }) => {
   const { data: session, status } = useSession();
@@ -27,15 +30,8 @@ const Dashboard = ({ initialForms }) => {
 
   const handleDeleteForm = (e, formId) => {
     e.preventDefault();
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'This will permanentelely delete this form and all its questions.',
-      icon: 'warning',
-      showCloseButton: true,
-      showCancelButton: true,
-      confirmButtonText: 'Yes, delete it.',
-      cancelButtonText: "No, don't do it!",
-    }).then((result) => {
+
+    fireSwal.delete('This will permanentelely delete this form and all its questions.').then((result) => {
       if (result.isConfirmed) {
         fetch('/api/forms/delete', {
           method: 'DELETE',
@@ -46,9 +42,9 @@ const Dashboard = ({ initialForms }) => {
             const index = copyForms.findIndex((form) => form.id === formId);
             copyForms.splice(index, 1);
             setForms(copyForms);
-            Swal.fire('Deleted!', '', 'success');
+            fireSwal.successfullyDeleted('Form deleted!');
           } else {
-            Swal.fire('Oups!', 'Something went wrong. Reload and try again.', 'error');
+            fireSwal.error();
           }
         });
       }

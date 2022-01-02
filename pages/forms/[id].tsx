@@ -10,6 +10,9 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import Link from "../../components/Link";
 
+// utils
+import fireSwal from '../../utils/fireSwal';
+
 const Form = ({ form }) => {
   // state
   const [currentQuestion, setCurrentQuestion] = useState(form.questions[0]);
@@ -29,6 +32,8 @@ const Form = ({ form }) => {
   // funcs
   const submitAnswer = () => setIsAnswerSubmitted(true);
 
+  const goToDashboard = () => { window.location.href = '/dashboard' }; // FIXME with proper redirect
+
   const goTwoQuestionsBack = () => {
     setAnswer('');
     setIsAnswerSubmitted(false);
@@ -36,12 +41,12 @@ const Form = ({ form }) => {
     setCurrentQuestion(form.questions[previousIndex]);
   };
 
-  const goToDashboard = () => { window.location.href = '/dashboard' };
-
   const goToNextQuestion = () => {
     setAnswer('');
     const isLastQuestion = form.questions.length === currentIndex + 1;
-    if (isLastQuestion) return goToDashboard();  // FIXME with proper redirect
+    if (isLastQuestion) {
+      return fireSwal.success({message: 'Good job!', closingCallback: goToDashboard})
+    };
 
     setIsAnswerSubmitted(false);
 

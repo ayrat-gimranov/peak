@@ -2,15 +2,20 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
+// fontawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare } from '@fortawesome/free-regular-svg-icons';
 
+// components
 import Container from '../../components/Container';
 import Card from '../../components/Card';
 import Input from '../../components/Input';
 import Header from "../../components/Header";
 import Button from '../../components/Button';
 import Link from '../../components/Link';
+
+// utils
+import fireSwal from '../../utils/fireSwal';
 
 interface User {
   id?: string | null;
@@ -47,6 +52,8 @@ const NewForm = () => {
   };
 
   const handleSaveForm = async () => {
+    fireSwal.loading();
+
     const user: User = session.user;
     fetch('/api/forms/post', {
       method: 'POST',
@@ -58,9 +65,14 @@ const NewForm = () => {
       })
     })
     .then((res) => {
-      if (res.ok) router.push('/dashboard');
+      if (res.ok) {
+        const closingCallback = () => router.push('/dashboard');
+        fireSwal.success({message: 'Form created!', closingCallback});
+      } else {
+        throw new Error();
+      };
     })
-    .catch((error) => console.log('error', error))
+    .catch(() => fireSwal.error())
 
   };
 
