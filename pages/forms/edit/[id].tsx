@@ -127,7 +127,9 @@ const EditForm = ({ form }) => {
 
         <div className='flex items-center justify-between mt-6 mb-2'>
           <p className='text-xl'>Your form's questions</p>
-          <FontAwesomeIcon icon={faPlusSquare} className='text-xl text-purple' onClick={handleAddQuestion} />
+          <button onClick={handleAddQuestion}>
+            <FontAwesomeIcon icon={faPlusSquare} className='text-xl text-purple hover:text-purple-dark' />
+          </button>
         </div>
 
         <div className='mb-20 space-y-4'>
