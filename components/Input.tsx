@@ -35,6 +35,7 @@ const Input = (props: InputProps) => {
       {type === 'textarea' ? (
         <textarea
           className="block w-full p-0 text-gray-900 placeholder-gray-500 border-0 focus:ring-0 sm:text-sm"
+          rows={5}
           id={name}
           name={name}
           value={value}
