@@ -16,6 +16,7 @@ import Link from '../../components/Link';
 
 // utils
 import fireSwal from '../../utils/fireSwal';
+import { observeAndScrollTo } from '../../utils/DOM';
 
 interface User {
   id?: string | null;
@@ -40,8 +41,9 @@ const NewForm = () => {
 
   const handleAddQuestion = () => {
     const lastRef = questions[questions.length - 1]?.ref || 0;
-    const newQuestion = {ref: lastRef + 1, title: '', answer: ''};
+    const newQuestion = { ref: lastRef + 1, title: '', answer: '' };
     setQuestions([...questions, newQuestion]);
+    observeAndScrollTo("[data-id='form-questions-wrapper']", `#title_${lastRef + 1}`, { focus: true })
   };
 
   const handleDeleteQuestion = (ref: Number) => {
@@ -87,15 +89,14 @@ const NewForm = () => {
     setQuestions([...copyQuestions]);
   };
 
-
   return (
     <div className="flex flex-col max-h-screen min-h-screen overflow-y-auto bg-gray-50">
       <Header />
       <Container>
         <Card className='space-y-4'>
           <p className='text-xl'>Your new form</p>
-          <Input label='Name' value={name} onChange={(e) => {setName(e.target.value)}} />
-          <Input label='Color' type='color' value={color} onChange={(e) => {setColor(e.target.value)}} />
+          <Input label='Name' value={name} onChange={(e) => setName(e.target.value)} />
+          <Input label='Color' type='color' value={color} onChange={(e) => setColor(e.target.value )} />
         </Card>
 
         <div className='flex items-center justify-between mt-6 mb-2'>
@@ -105,7 +106,7 @@ const NewForm = () => {
           </button>
         </div>
 
-        <div className='mb-20 space-y-4'>
+        <div className='mb-20 space-y-4' data-id='form-questions-wrapper'>
           {questions.map((question) => (
             <Card key={question.ref} color={color} className='space-y-4'>
               <Input name={`title_${question.ref}`} label='Title' value={question.title} onChange={handleChangeQuestion} />

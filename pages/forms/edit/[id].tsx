@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import safeJsonStringify from 'safe-json-stringify';
 import prisma from '../../../prismaInstance';
-import Swal from 'sweetalert2';
 
 // fontawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,20 +17,26 @@ import Link from '../../../components/Link';
 
 // utils
 import fireSwal from '../../../utils/fireSwal';
+import { observeAndScrollTo } from '../../../utils/DOM';
 
 const EditForm = ({ form }) => {
   const router = useRouter();
 
+  // state
   const [name, setName] = useState(form.name);
   const [color, setColor] = useState(form.color);
   const [questions, setQuestions] = useState(form.questions);
 
+  // funcs
   const handleAddQuestion = () => {
     const newQuestion = {title: '', answer: ''};
     setQuestions([...questions, newQuestion]);
+    const lastIndex = questions.length;
+    const wrapper = "[data-id='form-questions-wrapper']"
+    observeAndScrollTo(wrapper, `#title_${lastIndex}`, { focus: true })
   };
 
-  const handleDeleteQuestion = (index) => {
+  const handleDeleteQuestion = (index: number) => {
     const question = questions[index];
     const copyQuestions = [...questions];
 
@@ -121,23 +126,28 @@ const EditForm = ({ form }) => {
         </Card>
 
         <div className='flex items-center justify-between mt-6 mb-2'>
-          <p className='text-xl'>Your form's questions</p>
+          <p className='space-x-2'>
+            <span className='text-xl'>Your form's questions</span>
+            <span>({form.questions.length})</span>
+          </p>
           <button onClick={handleAddQuestion}>
             <FontAwesomeIcon icon={faPlusSquare} className='text-xl text-purple hover:text-purple-dark' />
           </button>
         </div>
 
-        <div className='mb-20 space-y-4'>
-          {questions.map((question, index) => (
-            <Card key={index} color={color} className='space-y-4'>
-              <Input name={`title_${index}`} label='Title' value={question.title} onChange={handleChangeQuestion} />
-              <Input name={`answer_${index}`} label='Answer' type='textarea' value={question.answer} onChange={handleChangeQuestion} />
-              <Button onClick={() => handleDeleteQuestion(index)} variant='outlined' color='gray' className='block mx-auto text-sm'>
-                Delete
-              </Button>
-            </Card>
-          ))}
+        <div className='mb-20 space-y-4' data-id='form-questions-wrapper'>
+          {questions.map((question, index: number) => {
+            return (
+              <Card key={index} color={color} className='space-y-4'>
+                <Input name={`title_${index}`} label='Title' value={question.title} onChange={handleChangeQuestion} />
+                <Input name={`answer_${index}`} label='Answer' type='textarea' value={question.answer} onChange={handleChangeQuestion} />
+                <Button onClick={() => handleDeleteQuestion(index)} variant='outlined' color='gray' className='block mx-auto text-sm'>
+                  Delete
+                </Button>
+              </Card>
+          )})}
         </div>
+
         <div className='absolute bottom-0 left-0 right-0 flex justify-between p-4 space-x-2 bg-white border-t border-gray-200 md:relative md:border-none md:bg-transparent md:justify-end'>
           <Link href="/dashboard" className="w-full md:w-auto md:px-4" variant='outlined' color='gray'>
             Cancel
