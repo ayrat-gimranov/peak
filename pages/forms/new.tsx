@@ -100,7 +100,10 @@ const NewForm = () => {
         </Card>
 
         <div className='flex items-center justify-between mt-6 mb-2'>
-          <p className='text-xl'>Your form's questions</p>
+          <p className='space-x-2'>
+            <span className='text-xl'>Your form's questions</span>
+            <span>({questions.length})</span>
+          </p>
           <button onClick={handleAddQuestion}>
             <FontAwesomeIcon icon={faPlusSquare} className='text-xl text-purple hover:text-purple-dark'/>
           </button>
