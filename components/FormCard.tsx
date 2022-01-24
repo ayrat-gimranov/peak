@@ -31,11 +31,9 @@ const FormCard = ({ form, handleDeleteForm }: FormCard) => (
     <div className="flex flex-col p-4 space-y-2 border-l">
       <Link href={`/forms/edit/${form.id}`} color="yellow" variant='outlined' className='py-0 space-x-2'>
         <span>Edit</span>
-        <FontAwesomeIcon icon={faPenAlt} size="sm" />
       </Link>
       <Button onClick={(e) => handleDeleteForm(e, form.id)} color="red" variant='outlined' className='space-x-2'>
         <span>Delete</span>
-        <FontAwesomeIcon icon={faTrashAlt} size="sm" />
       </Button>
     </div>
   </Card>
