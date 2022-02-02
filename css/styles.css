@@ -1,4 +1,3 @@
-/* uniquement au clic/tap focus */
 :focus:not(:focus-visible) {
   outline-color: transparent;
 }
