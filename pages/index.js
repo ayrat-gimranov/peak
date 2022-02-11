@@ -25,7 +25,7 @@ const LandingPage = () => {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Header />
-        <div className="grid grid-cols-2 gap-4 px-20">
+        <div className="p-4 md:grid md:grid-cols-2 md:gap-4 md:px-20">
           <div className="flex flex-col items-baseline justify-center space-y-8">
             <h2 className="text-5xl text-white">
               <span style={{ color: '#ffc300' }}>Remember</span> anything.
@@ -47,13 +47,13 @@ const LandingPage = () => {
               </Button>
             )}
           </div>
-          <div className="m-20">
+          <div className="hidden m-20 md:block">
             <Image src={landingPageImage} />
           </div>
         </div>
       </div>
 
-      <div class="relative">
+      {/* <div class="relative">
         <div class="lg:mx-auto lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-2 lg:grid-flow-col-dense lg:gap-24">
           <div class="max-w-xl px-4 mx-auto sm:px-6 lg:py-16 lg:max-w-none lg:mx-0 lg:px-0">
             <div>
@@ -116,7 +116,7 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
